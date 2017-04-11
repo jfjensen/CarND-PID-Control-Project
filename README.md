@@ -25,7 +25,12 @@ Self-Driving Car Engineer Nanodegree Program
 1. Clone this repo.
 2. Make a build directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Run it: `./pid`. 
+4. Run it: `./pid`.
+
+## Building using Docker
+
+1. docker build -t carnd .
+2. docker run -p 127.0.0.1:4567:4567 carnd ./pid
 
 ## Editor Settings
 

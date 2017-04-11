@@ -41,6 +41,9 @@ WORKDIR build
 RUN cmake ..
 RUN make
 RUN make install
+RUN cp /usr/lib64/libuWS.so /usr/lib/libuWS.so
+
+RUN ldconfig
 
 # go to our home dir and copy contents of our host dir...
 WORKDIR /home
@@ -48,5 +51,9 @@ COPY . /home
 COPY CMakeLists.txt CMakeLists.txt
 RUN cmake .
 RUN make
+
+# https://stackoverflow.com/questions/22111060/difference-between-expose-and-publish-in-docker
+EXPOSE 4567
+# RUN ./pid
 
 # next step: https://stackoverflow.com/questions/22049212/docker-copy-file-from-container-to-host
