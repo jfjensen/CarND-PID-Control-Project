@@ -35,6 +35,10 @@ WORKDIR ..
 # get uWebsockets and install...
 RUN git clone https://github.com/uWebSockets/uWebSockets.git
 WORKDIR uWebSockets
+RUN git checkout e94b6e1
+RUN mkdir /build
+WORKDIR build
+RUN cmake ..
 RUN make
 RUN make install
 
