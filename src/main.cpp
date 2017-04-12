@@ -34,10 +34,17 @@ int main()
 
   PID pid;
   // TODO: Initialize the pid variable.
+
+  // https://robotics.stackexchange.com/questions/167/what-are-good-strategies-for-tuning-pid-loops
+
   // pid.Init(0.2, 0.004, 3.0); // values from the course...
   pid.Init(.1, .001, 2.0);
 
-  h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
+  PID throttle_pid;
+  throttle_pid.Init(1.1, .00, 0.5);
+  double ref_speed = 35.0;
+
+  h.onMessage([&pid,&throttle_pid,&ref_speed](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
@@ -63,19 +70,31 @@ int main()
 
           steer_value = - pid.TotalError();
 
-          std::cout << "TotalError: " << steer_value << std::endl;
+          // std::cout << "TotalError: " << steer_value << std::endl;
 
           if (steer_value > 1.0)
             steer_value = 1.0;
           if (steer_value < -1.0)
             steer_value = -1.0;
+
+          double throttle;
+          double speed_err = ref_speed - speed;
+
+          throttle_pid.UpdateError(speed_err);
+
+          throttle = - throttle_pid.TotalError();
+
+          if (throttle > 0.5)
+            throttle = 0.5;
+          if (throttle < 0.0)
+            throttle = 0.0;
           
           // DEBUG
-          std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
+          std::cout << "CTE: " << cte << " Steering Value: " << steer_value << " Speed: " << speed << " Throttle: "<< throttle << std::endl;
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
-          msgJson["throttle"] = 0.3;
+          msgJson["throttle"] = throttle;
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
