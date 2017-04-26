@@ -37,11 +37,9 @@ int main()
 
   // https://robotics.stackexchange.com/questions/167/what-are-good-strategies-for-tuning-pid-loops
 
-  // pid.Init(0.2, 0.004, 3.0); // values from the course...
   pid.Init(.1, .001, 2.0);
 
   PID throttle_pid;
-  //throttle_pid.Init(0.1, .005, 2.5);
   throttle_pid.Init(0.3, .0001, 3.5);
   double ref_speed = 45.0;
 
@@ -71,8 +69,6 @@ int main()
 
           steer_value = pid.TotalError();
 
-          // std::cout << "TotalError: " << steer_value << std::endl;
-
           if (steer_value > 1.0)
             steer_value = 1.0;
           if (steer_value < -1.0)
@@ -84,10 +80,6 @@ int main()
           throttle_pid.UpdateError(speed_err);
 
           throttle = - throttle_pid.TotalError();
-
-
-          // DEBUG
-          std::cout << "CTE: " << cte << " Steering Value: " << steer_value << " Speed-err: " << speed_err << " Throttle: "<< throttle << std::endl;
 
           double max_throttle = 0.8;
 
