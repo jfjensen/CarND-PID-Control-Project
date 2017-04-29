@@ -37,11 +37,11 @@ int main()
 
   // https://robotics.stackexchange.com/questions/167/what-are-good-strategies-for-tuning-pid-loops
 
-  pid.Init(.1, .001, 2.0);
+  pid.Init(.11, .0008, 2.2);  // pid.Init(.1, .001, 2.0);
 
   PID throttle_pid;
   throttle_pid.Init(0.3, .0001, 3.5);
-  double ref_speed = 45.0;
+  double ref_speed = 35.0;
 
   h.onMessage([&pid,&throttle_pid,&ref_speed](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
