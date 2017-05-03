@@ -35,6 +35,18 @@ Self-Driving Car Engineer Nanodegree Program
 ## Reflection
 ### Importance and effects of components in PID algorithm
 
+In both the steering controller and the throttle controller the parameters of the different components have similar values. The P and the D components seems to be the most important. 
+
+The P component makes our car steer quickly towards the planned trajectory and makes sure that the reference speed is quickly attained. So, the higher the Kp parameter the faster the reaction to the cross track error. If the parameter is too high, though, then the controllers will oscillate, without stabilizing.
+
+The task of the D component is to reduce or even eliminate the zig-zag motion of the car and to reduce the oscillation of the throttle. If the Kd parameter is too low then, the car will zig zag and the throttle will still oscillate. If, on the other hand, Kd is too high then it will take a long time for the car to reach the planned trajectory and it will take ages for the speed to be reached.
+
+The I component seems to plays the least important role given the low value of its parameter Ki. Yet, the parameter should not be zero. The component's task is to eliminate any bias that might appear in the controllers.
+
+Ideally for the throttle control there would be reference speeds given along the trajectory. Or, at least the possibility to see what part of the trajectory that lies ahead so that the reference speed (and hence the optimal throttle) can be calculated before the car enters different pieces of track like a straight part or a (sharp) turn.
+
 
 ### Tuning hyperparameters
-The Kp, Ki and Kd values for both the steering and throttle PID controller were tuned manually. They were tuned manually one at a time starting with Kp, then Kd and then Ki. This order was chosen due to the relative importance of each of those values, with the most important being tuned first. The starting values were Kp = 0.1 and Kd = Ki = 0.0.
+The Kp, Ki and Kd values for both the steering and throttle PID controller were tuned manually. They were tuned manually one at a time starting with Kp, then Kd and then Ki. This order was chosen due to the relative importance of each of those values, with the most important being tuned first. The starting values were Kp = 0.1 and Kd = 0.0 and Ki = 0.0.
+
+It seems that it would have been a good idea to plot the cross track errors for both controllers. Visualizing the effect of the components in a graph would probably have made it easier (quicker) to tune the parameters.
