@@ -32,6 +32,10 @@ Self-Driving Car Engineer Nanodegree Program
 1. docker build -t carnd .
 2. docker run -p 127.0.0.1:4567:4567 carnd ./pid
 
+## Video
+
+A demo video of the car driving around the track can be found [here](https://youtu.be/V7Vk7yQCk6A).
+
 ## Reflection
 ### Importance and effects of components in PID algorithm
 
